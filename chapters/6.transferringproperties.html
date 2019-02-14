@@ -1,0 +1,73 @@
+<!-- use the spread operator to call back ALL properties of a components child -->
+
+<!-- {...this.props} is the same as the below, easy...-->
+
+<!-- color =  {this.props.color}
+     num = {this.props.num}
+     size = {this.props.size}/>  -->
+
+<!-- NOTE: there are performance related issues due to each spread operator usage triggering a component update on each child along the component path -->
+<!-- So, if you have ten components, each with five children on the same single page application; thats FIFTY individual state changes every time something is ammended in the component -->
+<!-- not cool man, not cool. -->
+<!-- there are other ways to solve the above transfer issue without any side effects, THEY WILL BE COVERED IN A LATER CHAPTERS -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Chapter 5 - creating Complex Components</title>
+  <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  <!-- <script src="./styles.css"></script> -->
+</head>
+
+<body>
+  <div id="container"></div>
+
+  <script type="text/babel">
+  
+  class Display extends React.Component {
+    render() {
+      return (
+        <div>
+          <p>{this.props.color}</p>
+          <p>{this.props.num}</p>
+          <p>{this.props.size}</p>  
+        </div>
+      );
+    }
+  }
+  
+  class Label extends React.Component {
+    render() {
+      return(
+        <div>
+           <Display {...this.props} /> 
+        </div>                                          
+      );
+    }
+  }
+
+  class Shirt extends React.Component {
+    render() {
+      return(
+        <div>
+          <Label {...this.props} /> 
+        </div>           
+      );
+    }
+  }
+
+    ReactDOM.render(
+      <div>
+        <Shirt color="steel blue" num="3.14" size="medium"/>
+        
+      </div>,
+      document.querySelector('#container')
+    );
+  </script>
+</body>
+</html>

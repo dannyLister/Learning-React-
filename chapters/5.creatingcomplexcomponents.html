@@ -1,0 +1,73 @@
+ <!-- parent card component containing: square and label child components -->
+ <!-- inline styling: contains jsx styling attribute: line 42: let squareStyle { backgroundColor: this.props.bgcolor, } -->
+ <!-- above is a good example of an ALIAS... -->
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Chapter 5 - creating Complex Components</title>
+  <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  
+</head>
+<body>
+  <div id="container"></div>
+
+  <script type="text/babel">
+  
+  class Card extends React.Component {
+    render() {
+      let cardStyle ={
+        height: 200,
+        width: 150,
+        padding: 0,
+        backgroundColor: "#FFF",
+        boxShadow: "0px 0px 5px #666"
+      };
+
+      return(
+        <div style={cardStyle}>
+          <Square color={this.props.color}/>
+          <Label color={this.props.color}/>
+        </div>
+      );
+    }
+  }
+  class Square extends React.Component {
+    render() {
+      let squareStyle = { 
+        height: 150,
+        backgroundColor: this.props.color
+      };
+
+      return(
+        <div style={squareStyle}></div>
+      );
+    }
+  }
+  class Label extends React.Component {
+    render() {
+      let labelStyle = {
+        fontFamily: "sans-serif",
+        fontWeight: "bold",
+        padding: 13,
+        margin: 0
+      }
+      return(
+        <p style={labelStyle}>{this.props.color}</p>
+      );
+    }
+  }
+    ReactDOM.render(
+      <div>
+        <Card color="#A6A6A6"/>
+        
+      </div>,
+      document.querySelector('#container')
+    );
+  </script>
+</body>
+</html>

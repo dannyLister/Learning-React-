@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Chapter 8 - Dealing with state in React</title>
+
+  <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
+</head>
+<body>
+  
+  <div id="container"></div>
+
+  <script type="text/babel">
+
+    class LightningCounter extends React.Component {
+      constructor(props) {
+        super(props);
+          this.state = { //setting state
+            strikes: 0 //making our 'strikes' variable a property of the component state
+          };
+          
+          this.timerTick = this.timerTick.bind(this); //essentially joining the state and functionality together
+          // by binding the timerTick functionality to the initial state
+        }
+
+      timerTick() {
+        this.setState({ //setState is the keyword used to directly change the specified state, so 0 to 100
+          strikes: this.state.strikes + 100
+        });
+      }
+
+      // an alternative take on timerTick:
+      // timerTick() {
+      //   this.setState((prevState) => {
+      //       return(
+      //         strikes: prevState.strikes + 100
+      //       );
+      //   });
+      // };
+
+      componentDidMount() {
+        setInterval(this.timerTick, 1000);  //if render is stage one, this is stage two of the React lifecycle
+      }
+        
+      render() {
+        let counterStyle = {
+          color: '#66FFFF',
+          fontSize: 50
+        };
+
+        let count = this.state.strikes.toLocaleString(); //e??? not a typo!
+
+        return(
+          <h1 style = {counterStyle}>{count}</h1>
+        );
+      }
+    }
+  
+  class LightningCounterDisplay extends React.Component {
+    render() {
+      let commonStyle = {
+        margin: 0,
+        padding: 0
+      };
+
+      let divStyle = {
+        width: 250,
+        textAlign: 'center',
+        backgroundColor: '#020202',
+        padding: 40,
+        fontFamily: 'sans-serif',
+        color: '#999999',
+        borderRadius: 10
+      };
+
+      let textStyles = {
+        emphasis: {
+          fontSize: 38,
+          ...commonStyle
+        },
+        smallEmphasis: {
+          ...commonStyle
+        },
+        small: {
+          fontSize: 17,
+          opacity: 0.5,
+          ...commonStyle
+        }
+      };
+
+      return(
+        <div style={divStyle}>
+          <LightningCounter />
+          <h2 style={textStyles.smallEmphasis}>LIGHTNING STRIKES</h2>
+          <h2 style={textStyles.emphasis}>WORLDWIDE</h2>
+          <h2 style={textStyles.small}>(since you loaded this example)</h2>
+        </div>
+      );
+    }
+  }
+
+  ReactDOM.render(
+    <LightningCounterDisplay />,
+    document.querySelector('#container')
+  );
+  
+  </script>
+
+</body>
+</html>
